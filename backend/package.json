@@ -12,10 +12,12 @@
     "mongoose": "^6.1.1"
   },
   "devDependencies": {
+    "jasmine": "^4.0.1",
     "nodemon": "^2.0.15"
   },
   "scripts": {
-    "test": "node index.js"
+    "test-init": "node ./node_modules/jasmine/bin/jasmine.js init",
+    "test": "node ./node_modules/jasmine/bin/jasmine.js"
   },
   "author": "me",
   "license": "ISC"

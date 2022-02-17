@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
     return;
   }
 
-  newUser = await User.create({
+  let newUser = await User.create({
     username: req.body.username,
     password: req.body.password,
     email: req.body.email,
@@ -24,9 +24,7 @@ module.exports = async (req, res) => {
   });
 
   if (newUser != null) {
-    newUser.save(function(error){
-
-    });
+    newUser.save((err) => {console.log(err)});
     res.send('OK');
   }
 };

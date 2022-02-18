@@ -1,27 +1,36 @@
 const mongoose = require('mongoose');
 const Playthrough = mongoose.model('playthrough');
-const User = mongoose.model('user');
 const Game = mongoose.model('game');
 
 module.exports = async (req, res) => {
-  if (req.body.id) {
-    const game = await Game.findById(req.body.id);
-  } else if (req.body.title) {
-    const game = await Game.findOne({
-      title: req.body.title
-    });
-  }
+	let game;
+	if (req.body.id) {
+		game = await Game.findById(req.body.id);
+	} else if (req.body.title) {
+		game = await Game.findOne({
+			title: req.body.title
+		});
+	}
 
-  if (!game) {
-    res.send('Game does not exist');
-    return;
-  }
+	if (!game) {
+		res.send('Game does not exist');
+		return;
+	}
 
-  playthrough = await Playthrough.deleteOne({
-    user: res.locals.user,
-    game: game,
-  });
-
-  playthrough.save();
-  res.send('Game could not be added');
+	Playthrough.deleteOne({
+		user: res.locals.user,
+		game: game,
+	})
+		.then((deleteResponse) => {
+			if (deleteResponse.deletedCount === 1) {
+				res.send('deleted');
+			} else {
+				res.status(404);
+				res.send('Could not find playthrough');
+			}
+		})
+		.catch((err) => {
+			res.status(400);
+			res.send(err);
+		});
 };

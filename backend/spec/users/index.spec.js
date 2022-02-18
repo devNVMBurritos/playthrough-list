@@ -1,48 +1,51 @@
 
 var axios = require('axios');
-var Express = require('express');
+// var Express = require('express');
 const dotenv = require('dotenv');
 dotenv.config();
 
 describe('Server', () => {
-  var server;
-  var requests;
-  beforeAll(() => {
-    server = require('../../index');
-    requests = require('../helpers/index.spec-requests');
-  });
+	// eslint-disable-next-line no-unused-vars
+	let server;
+	var requests;
+	beforeAll(() => {
+		server = require('../../index');
+		requests = require('../helpers/index.spec-requests');
+	});
 
-  // #region User tests
-  describe('POST /user', () => {
-    var registerData = {};
-    beforeAll((done) => {
-      axios(requests.userRegisterCorrectRequest).then((res) => {
-        registerData.status = res.status;
-        registerData.body = res.data
-        done();
-      });
-    })
+	// #region User tests
+	describe('POST /user', () => {
+		var registerData = {};
+		var deleteData = {};
+		beforeAll((done) => {
+			axios(requests.userRegisterCorrectRequest)
+				.then((registerRes) => {
+					registerData.status = registerRes.status;
+					registerData.body = registerRes.data;
 
-    describe('POST /user/register', () => {
-      it("Status 200", () => {
-        expect(registerData.status).toBe(200);
-      })
-    })
+					return axios(requests.userRemoveUserRequest);
+				})
+				.then((delteRes) => {
+					deleteData.status = delteRes.status;
+					deleteData.body = delteRes.data;
+					done();
+				});
 
-    describe('POST /user/delete', () => {
-      var data = {};
-      beforeAll((done) => {
-        axios(requests.userRemoveUserRequest).then((res) => {
-          data.status = res.status;
-          data.body = res.data
-          done();
-        })
-      })
-      it("Status 200", () => {
-        expect(data.status).toBe(200)
-        expect(data.body === 'User removed!')
-      })
-    })
-  })
-  // #endregion
-})
+		});
+
+		describe('POST /user/register', () => {
+			it('Status 200', () => {
+				expect(registerData.status).toBe(200);
+			});
+		});
+
+		describe('POST /user/delete', () => {
+			it('Status 200', () => {
+				expect(deleteData.status).toBe(200);
+				expect(deleteData.body === 'User removed!');
+			});
+		});
+		
+	});
+	// #endregion
+});

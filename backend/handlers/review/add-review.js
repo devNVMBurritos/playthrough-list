@@ -3,40 +3,45 @@ const Review = mongoose.model('review');
 const Game = mongoose.model('game');
 
 module.exports = async (req, res) => {
-	let game;
-	if (req.body.id) {
-		game = await Game.findById(req.body.gameId);
-	} else if (req.body.title) {
-		game = await Game.findOne({
-			title: req.body.title
-		});
-	}
+	let parameter;
+
 	if (!req.body.score) {
 		res.send('Missing score value!');
 		return;
 	}
-	if (!game) {
-		res.send('Game does not exist');
-		return;
+
+	if (req.body.id) {
+		parameter = {_id: req.body.id};
+	} else if (req.body.title) {
+		parameter = {title: req.body.title};
 	}
 
-	Review.create({
-		user: res.locals.user,
-		game: game,
-		score: req.body.score
-	})
+	Game.findOne(parameter)
+		.then((game) => {
+			if (!game) {
+				let error = new Error('Game was not found');
+				error.responseStatus = 404;
+				throw error;
+			}
+
+			return Review.create({
+				user: res.locals.user,
+				game: game,
+				score: req.body.score,
+			});
+		})
 		.then((review) => {
 			if (!review) {
-				res.status(400);
-				res.send('Could not create review!');
-				return;
+				let error = new Error('Review could not be created');
+				error.responseStatus = 400;
+				throw error;
 			}
 
 			review.save();
 			res.send('Game added');
 		})
 		.catch((err) => {
-			res.status(400);
-			res.send(err);
+			res.status(err.responseStatus);
+			res.send(err.message);
 		});
 };

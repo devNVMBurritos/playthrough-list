@@ -3,12 +3,13 @@ const Playthrough = mongoose.model('playthrough');
 const Game = mongoose.model('game');
 
 module.exports = async (req, res) => {
+	let parameters;
+
 	if (!req.body.state) {
 		res.send('Missing playthrough "state" field!');
 		return;
 	}
 
-	let parameters;
 	if (req.body.id) {
 		parameters = {_id: req.body.id};
 	} else  {
@@ -22,6 +23,7 @@ module.exports = async (req, res) => {
 				error.responseStatus = 404;
 				throw error;
 			}
+			
 			return Playthrough.create({
 				user: res.locals.user,
 				game: game,

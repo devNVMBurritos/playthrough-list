@@ -3,35 +3,40 @@ const Playthrough = mongoose.model('playthrough');
 const Game = mongoose.model('game');
 
 module.exports = async (req, res) => {
-	let game;
+	let parameters;
+
 	if (req.body.id) {
-		game = await Game.findById(req.body.id);
+		parameters = {_id: req.body.id};
 	} else if (req.body.title) {
-		game = await Game.findOne({
+		parameters = {
 			title: req.body.title
-		});
+		};
 	}
 
-	if (!game) {
-		res.send('Game does not exist');
-		return;
-	}
+	Game.findOne(parameters)
+		.then((game) => {
+			if (!game) {
+				let error = new Error('Game does not exist');
+				error.responseStatus = 404;
+				throw error;
+			}
 
-	Playthrough.findOne({
-		user: res.locals.user,
-		game: game,
-	})
+			return Playthrough.findOne({
+				user: res.locals.user,
+				game: game
+			});
+		})
 		.then((playthrough) => {
 			if(!playthrough) {
-				res.status(404);
-				res.send('Playthrough not found!');
-				return;
+				let error = new Error('Playthrough does not exist');
+				error.responseStatus = 404;
+				throw error;
 			}
 
 			res.send(playthrough);
 		})
 		.catch((err) => {
-			res.status(400);
-			res.send(err);
+			res.status(err.responseStatus);
+			res.send(err.message);
 		});
 };

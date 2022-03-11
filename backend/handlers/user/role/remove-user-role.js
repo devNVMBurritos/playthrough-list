@@ -2,32 +2,41 @@ const mongoose = require('mongoose');
 const User = mongoose.model('user');
 
 module.exports = async (req, res) => {
-	let user;
-	if (req.body.id) {
-		user = await User.findById(req.body.id);
-	} else if (req.body.username) {
-		user = await User.findOne({
-			title: req.body.username
-		});
-	}
-
-	if (!user) {
-		res.send('User does not exists');
-		return;
-	}
-
 	if (!req.body.role) {
 		res.send('No role were given');
 		return;
 	}
 
-	if (!user.roles.includes(req.body.role)) {
-		for(var i = 0; i < user.roles.length; i++){ 
-			if ( user.roles[i] === req.body.role) { 
-				user.roles.splice(i, 1); 
-			}
-		}
-		user.save();
+	let parameter;
+
+	if (req.body.id) {
+		parameter = {_id: req.body.id};
+	} else if (req.body.username) {
+		parameter = {username: req.body.username};
 	}
-	res.send('Role removed!');
+  
+	if (!parameter) {
+		res.status(400);
+		res.send('Missing parameter: id or username');
+	}
+
+	User.findOne(parameter)
+		.then((user) => {
+			if (!user) {
+				let error = new Error('User does not exist');
+				error.responseStatus = 404;
+				throw error;
+			}
+
+			if (user.roles.includes(req.body.role)) {
+				for(var i = 0; i < user.roles.length; i++){ 
+					if ( user.roles[i] === req.body.role) { 
+						user.roles.splice(i, 1); 
+					}
+				}
+				user.save();
+			}
+
+			res.send('Role removed!');
+		});
 };

@@ -3,30 +3,39 @@ const Review = mongoose.model('review');
 const Game = mongoose.model('game');
 
 module.exports = async (req, res) => {
-	let game;
+	let parameter;
+
 	if (req.body.id) {
-		game = await Game.findById(req.body.id);
-	} else if (req.body.title) {
-		game = await Game.findOne({
-			title: req.body.title
-		});
+		parameter = {_id: req.body.id};
+	}
+	else if (req.body.title) {
+		parameter = {title: req.body.title};
 	}
 
-	if (!game) {
-		res.send('Game does not exist');
-		return;
-	}
+	Game.findOne(parameter)
+		.then((game) => {
+			if (!game) {
+				let error = new Error('Game was not found');
+				error.responseStatus = 404;
+				throw error;
+			}
 
-	Review.findOne({
-		user: res.locals.user,
-		game: game,
-	})
+			return Review.findOne({
+				user: res.locals.user,
+				game: game,
+			});
+		})
 		.then((review) => {
 			if (!review) {
-				res.send('Could not get review!');
-				return;
+				let error = new Error('Review was not found');
+				error.responseStatus = 404;
+				throw error;
 			}
 
 			res.send(review);
+		})
+		.catch((err) => {
+			res.status(err.responseStatus);
+			res.send(err.message);
 		});
 };

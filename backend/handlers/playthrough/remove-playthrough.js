@@ -3,24 +3,29 @@ const Playthrough = mongoose.model('playthrough');
 const Game = mongoose.model('game');
 
 module.exports = async (req, res) => {
-	let game;
+	let parameters;
+
 	if (req.body.id) {
-		game = await Game.findById(req.body.id);
+		parameters = {_id: req.body.id};
 	} else if (req.body.title) {
-		game = await Game.findOne({
+		parameters = {
 			title: req.body.title
-		});
+		};
 	}
 
-	if (!game) {
-		res.send('Game does not exist');
-		return;
-	}
+	Game.findOne(parameters)
+		.then((game) => {
+			if (!game) {
+				let error = new Error('Game does not exist');
+				error.responseStatus = 404;
+				throw error;
+			}
 
-	Playthrough.deleteOne({
-		user: res.locals.user,
-		game: game,
-	})
+			return Playthrough.deleteOne({
+				user: res.locals.user,
+				game: game
+			});
+		})
 		.then((deleteResponse) => {
 			if (deleteResponse.deletedCount === 1) {
 				res.send('deleted');
@@ -30,7 +35,7 @@ module.exports = async (req, res) => {
 			}
 		})
 		.catch((err) => {
-			res.status(400);
-			res.send(err);
+			res.status(err.responseStatus);
+			res.send(err.message);
 		});
 };

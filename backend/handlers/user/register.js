@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
 				res.send('Could not create the ');
 			}
 			newUser.save((err) => {console.log(err);});
-			res.send('OK');
+			res.send(newUser);
 		})
 		.catch(err => {
 			res.send(err);

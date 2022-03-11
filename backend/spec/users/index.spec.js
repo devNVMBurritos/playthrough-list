@@ -1,6 +1,5 @@
 
 var axios = require('axios');
-// var Express = require('express');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -16,13 +15,21 @@ describe('Server', () => {
 	// #region User tests
 	describe('POST /user', () => {
 		var registerData = {};
+		var getData = {};
 		var deleteData = {};
+
+
 		beforeAll((done) => {
 			axios(requests.userRegisterCorrectRequest)
 				.then((registerRes) => {
 					registerData.status = registerRes.status;
 					registerData.body = registerRes.data;
+					return axios(requests.userGetUserRequest);
 
+				})
+				.then((getRes) => {
+					getData.status = getRes.status;
+					getData.body = getRes.data;
 					return axios(requests.userRemoveUserRequest);
 				})
 				.then((delteRes) => {
@@ -36,6 +43,13 @@ describe('Server', () => {
 		describe('POST /user/register', () => {
 			it('Status 200', () => {
 				expect(registerData.status).toBe(200);
+			});
+		});
+
+		describe('POST /user/get-user', () => {
+			it('Status 200', () => {
+				expect(getData.status).toBe(200);
+				expect(getData.body === 'Got user data!');
 			});
 		});
 

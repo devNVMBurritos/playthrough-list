@@ -2,26 +2,36 @@ const mongoose = require('mongoose');
 const User = mongoose.model('user');
 
 module.exports = async (req, res) => {
-	let user;
+
+	let parameter;
 	if (req.body.id) {
-		user = await User.findById(req.body.id);
+		parameter = {_id: req.body.id};
 	} else if (req.body.username) {
-		user = await User.findOne({
-			title: req.body.username
-		});
+		parameter = {username: req.body.username};
 	}
   
-	if (!user) {
-		res.send('User does not exists');
-		return;
+	if (!parameter) {
+		res.status(400);
+		res.send('Missing parameter: id or username');
 	}
-	if (!req.body.role) {
-		res.send('No role were given');
-		return;
-	}
-	if (!user.roles.includes(req.body.role)) {
-		user.roles.push(req.body.role);
-		user.save();
-	}
-	res.send('Roles added!');
+
+	User.findOne(parameter)
+		.then((user) => {
+			if (!user) {
+				let error = new Error('User does not exist');
+				error.responseStatus = 404;
+				throw error;
+			}
+
+			if (!user.roles.includes(req.body.role)) {
+				user.roles.push(req.body.role);
+				user.save();
+			}
+
+			res.send('Roles added!');
+		})
+		.catch((err) => {
+			res.status(err.responseStatus);
+			res.send(err.message);
+		});
 };

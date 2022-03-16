@@ -27,15 +27,24 @@ describe('Server', () => {
 					return axios(requests.userGetUserRequest);
 
 				})
+				.catch((err) => {
+					console.log('register failed with err:', err);
+				})
 				.then((getRes) => {
 					getData.status = getRes.status;
 					getData.body = getRes.data;
 					return axios(requests.userRemoveUserRequest);
 				})
+				.catch((err) => {
+					console.log('get user failed with err:', err);
+				})
 				.then((delteRes) => {
 					deleteData.status = delteRes.status;
 					deleteData.body = delteRes.data;
 					done();
+				})
+				.catch((err) => {
+					console.log('delete user failed with err:', err);
 				});
 
 		});

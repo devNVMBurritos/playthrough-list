@@ -27,7 +27,8 @@ module.exports = async (req, res) => {
 			}
 
 			user.generateToken();
-			res.send(user);
 			user.save();
+
+			res.send(user);
 		});
 };

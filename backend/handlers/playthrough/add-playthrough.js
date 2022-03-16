@@ -3,28 +3,44 @@ const Playthrough = mongoose.model('playthrough');
 const Game = mongoose.model('game');
 
 module.exports = async (req, res) => {
-  if (req.body.id) {
-    const game = await Game.findById(req.body.id);
-  } else if (req.body.title) {
-    const game = await Game.findOne({
-      title: req.body.title
-    });
-  }
+	let parameters;
 
-  if (!req.body.state) {
-    res.send('Bad playthrough state input!');
-    return;
-  }
+	if (!req.body.state) {
+		res.send('Missing playthrough "state" field!');
+		return;
+	}
 
-  if (!game) {
-    res.send('Game does not exists');
-    return;
-  }
+	if (req.body.id) {
+		parameters = {_id: req.body.id};
+	} else  {
+		parameters = {title: req.body.title};
+	}
 
-  const playthrough = await Playthrough.create({
-    user: res.locals.user,
-    game: game,
-    state
-  });
+	Game.findById(parameters)
+		.then((game) => {
+			if (!game) {
+				let error = new Error('Game was not found');
+				error.responseStatus = 404;
+				throw error;
+			}
+			
+			return Playthrough.create({
+				user: res.locals.user,
+				game: game,
+			});
+		})
+		.then((playthrough) => {
+			if (!playthrough) {
+				let error = new Error('Could not create playthrough!');
+				error.responseStatus = 404;
+				throw error;
+			}
+			playthrough.save();
+			res.send('Playthrough created!');
+		})		
+		.catch((err) => {
+			res.status(err.responseStatus);
+			res.send(err.message);
+		});
 
 };

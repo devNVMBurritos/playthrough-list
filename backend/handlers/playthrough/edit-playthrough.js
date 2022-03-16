@@ -1,38 +1,46 @@
 const mongoose = require('mongoose');
 const Playthrough = mongoose.model('playthrough');
-const User = mongoose.model('user');
 const Game = mongoose.model('game');
 
 module.exports = async (req, res) => {
-  if (req.body.id) {
-    const game = await Game.findById(req.body.id);
-  } else if (req.body.title) {
-    const game = await Game.findOne({
-      title: req.body.title
-    });
-  }
+	let parameters;
 
-  if (!req.body.state) {
-    res.send('Missing playthrough state value!');
-    return;
-  }
+	if (!req.body.state) {
+		res.send('Missing playthrough state value!');
+		return;
+	}
 
-  if (!game) {
-    res.send('Game does not exist');
-    return;
-  }
+	if (req.body.id) {
+		parameters = { _id: req.body.id };
+	} else {
+		parameters = { title: req.body.title };
+	}
 
-  playthrough = await Playthrough.findOne({
-    user: res.locals.user,
-    game: game,
-  });
+	Game.findOne(parameters)
+		.then((game) => {
+			if (!game) {
+				let error = new Error('Game does not exist');
+				error.responseStatus = 404;
+				throw error;
+			}
+			return Playthrough.findOne({
+				user: res.locals.user,
+				game: game
+			});
+		})
+		.then((playthrough) => {
+			if (!playthrough) {
+				let error = new Error('Playthrough does not exist');
+				error.responseStatus = 404;
+				throw error;
+			}
 
-  if (!playthrough) {
-    res.send('Playthrough does not exists');
-    return;
-  }
-  
-  playthrough.state = req.body.state;
-  playthrough.save();
-  res.send('Game could not be added');
+			playthrough.state = req.body.state;
+			playthrough.save();
+			res.send('Playthrough edited!');
+		})
+		.catch((err) => {
+			res.status(err.responseStatus);
+			res.send(err.message);
+		});
 };

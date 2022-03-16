@@ -29,3 +29,5 @@ routes.forEach((route) => {
 var server = app.listen(process.env.PORT || 3306, () => {
   console.log('server is running on:' + server.address().port);
 });
+
+exports.modules = server;

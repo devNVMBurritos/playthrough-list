@@ -1,32 +1,44 @@
 const mongoose = require('mongoose');
 const Review = mongoose.model('review');
-const User = mongoose.model('user');
 const Game = mongoose.model('game');
 
 module.exports = async (req, res) => {
-  if (req.body.id) {
-    const game = await Game.findById(req.body.id);
-  } else if (req.body.title) {
-    const game = await Game.findOne({
-      title: req.body.title
-    });
-  }
+	let parameter;
 
-  if (!req.body.score) {
-    res.send('Missing score value!');
-    return;
-  }
+	if (!req.body.score) {
+		res.send('Missing score value!');
+		return;
+	}
 
-  if (!game) {
-    res.send('Game does not exist');
-    return;
-  }
+	if (req.body.id) {
+		parameter = {_id: req.body.id};
+	}
+	else if (req.body.title) {
+		parameter = {title: req.body.title};
+	}
 
-  review = await Review.create({
-    user: res.locals.user,
-    game: game,
-  });
+	Game.findOne(parameter)
+		.then((game) => {
+			if (!game) {
+				let error = new Error('Game was not found');
+				error.responseStatus = 404;
+				throw error;
+			}
 
-  review.save();
-  res.send('Game could not be added');
+			return Review.findOne({
+				user: res.locals.user,
+				game: game,
+			});
+		})
+		.then((review) => {
+			if (!review) {
+				let error = new Error('Review was not found');
+				error.responseStatus = 404;
+				throw error;
+			}
+
+			review.score = req.body.score;
+			review.save();
+			res.send('Review Modified!');
+		});
 };

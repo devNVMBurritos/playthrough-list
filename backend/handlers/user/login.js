@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
 
 	if (!req.body.password) {
 		res.status(400);
-		res.send('username was not provided!');
+		res.send('password was not provided!');
 	}
 
 	User.findOne({ username : req.body.username	})

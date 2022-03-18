@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
 				res.status(400);
 				res.send('Could not create the ');
 			}
-			newUser.save((err) => {console.log(err);});
+			newUser.save((err) => { console.log(err); });
 			res.send(newUser);
 		})
 		.catch(err => {

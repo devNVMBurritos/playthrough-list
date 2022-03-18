@@ -11,6 +11,9 @@ var GameSchema = new mongoose.Schema({
 	},
 	description: {
 		type: String,
+	},
+	promoted: {
+		type: Boolean
 	}
 });
 

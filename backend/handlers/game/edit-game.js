@@ -32,6 +32,10 @@ module.exports = async (req, res) => {
 			if (req.body.title != null) {
 				game.title = req.body.title;
 			}
+
+			if (req.body.promoted != null) {
+				game.promoted = req.body.promoted;
+			}
 			
 			game.save();
 			res.send('successfully updated parameters');

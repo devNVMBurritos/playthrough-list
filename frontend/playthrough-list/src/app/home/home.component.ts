@@ -8,21 +8,15 @@ import { Game } from '../_models/game';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  gameList: Game[];
+  gameList: Game[] = [];
+  promotedGameList: Game[] = [];
 
   constructor(
     gameService: GameService
   ) {
-    this.gameList = [
-    {
-      title: 'title',
-      imageLink: '',
-      description: ''
-    }
-  ];
-    gameService.gameList.subscribe(
+    gameService.promotedGameList.subscribe(
       gameList => {
-        this.gameList = gameList;
+        this.promotedGameList = gameList;
       }
     );
    }

@@ -12,6 +12,7 @@ const removeGame = require('./handlers/game/remove-game');
 const editGame = require('./handlers/game/edit-game');
 
 const getAllGameList = require('./handlers/game/list/get-all-game-list');
+const getPromotedGameList = require('./handlers/game/list/get-promoted-game-list');
 // Review
 const addReview = require('./handlers/review/add-review');
 const getReview = require('./handlers/review/get-review');
@@ -89,6 +90,12 @@ module.exports =  [
 		path: '/game/list/get-all-game-list',
 		middleware: [],
 		handler: getAllGameList
+	},
+	{
+		method: 'get',
+		path: '/game/list/get-promoted-game-list',
+		middleware: [],
+		handler: getPromotedGameList
 	},
 	//#endregion
 	//#region Review paths

@@ -5,9 +5,9 @@ module.exports = async (req, res) => {
 	let parameter;
 
 	if (req.body.id) {
-		parameter = {_id: req.body.id};
+		parameter = { _id: req.body.id };
 	} else if (req.body.username) {
-		parameter = {username: req.body.username};
+		parameter = { username: req.body.username };
 	}
   
 	if (!parameter) {

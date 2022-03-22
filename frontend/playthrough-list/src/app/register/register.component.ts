@@ -46,7 +46,9 @@ export class RegisterComponent implements OnInit {
     ).pipe(first())
       .subscribe(
         data => {
-          this.router.navigate([this.returnUrl]);
+          console.log(data);
+          this.router.navigate([localStorage.getItem('interceptedPath')]);
+          this.loading = false;
         }
     )
   }

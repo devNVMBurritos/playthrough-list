@@ -4,8 +4,9 @@ const Game = mongoose.model('game');
 module.exports = async (req, res) => {
 	Game.create({
 		title: req.body.title,
-		imageLink: req.body.image,
-		description: req. body.description
+		imageLink: req.body.imageLink,
+		description: req.body.description,
+		promoted: req.body.promoted
 	})
 		.then((game) => {
 			if (!game) {

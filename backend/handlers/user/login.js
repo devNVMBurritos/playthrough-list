@@ -30,5 +30,9 @@ module.exports = async (req, res) => {
 			user.save();
 
 			res.send(user);
+		})
+		.catch((err) => {
+			res.status(err.responseStatus);
+			res.send(err.message);
 		});
 };

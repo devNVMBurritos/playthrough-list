@@ -1,0 +1,7 @@
+.navbar {
+    background-color:darkred;
+    box-shadow:  0 1px 16px 0;
+}
+.white-text  {
+    color: rgba(255, 255, 255, 1)!important;
+}

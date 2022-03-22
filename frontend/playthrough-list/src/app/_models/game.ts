@@ -3,4 +3,5 @@ export class Game {
   imageLink!: string;
   description!: string;
   review: any;
+  promoted!: boolean;
 }

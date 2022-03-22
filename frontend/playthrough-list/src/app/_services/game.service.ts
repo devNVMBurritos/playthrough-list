@@ -1,20 +1,27 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { Game } from '../_models/game';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class GameService {
 
-  constructor(
+	constructor(
     private http: HttpClient
-  ) { }
+	) { }
 
-  public get gameList() {
-    return this.http.get<any> (`http://localhost:4201/game/list/get-game-list-all`, {});
-  }
+	public get gameList() {
+		return this.http.get<any> (`${environment.apiUrl}/game/list/get-game-list-all`, {});
+	}
 
-  public get promotedGameList() {
-    return this.http.get<any> (`http://localhost:4201/game/list/get-game-list-promoted`, {});
-  }
+	public get promotedGameList() {
+		return this.http.get<any> (`${environment.apiUrl}/game/list/get-game-list-promoted`, {});
+	}
+
+	public addGame(game: Game, token: string) {
+		const headers = {Authorization: `Bearer ${token}`};
+		return this.http.post<any>(`${environment.apiUrl}/game/add-game`, game, {headers});
+	}
 }

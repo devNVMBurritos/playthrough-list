@@ -11,8 +11,10 @@ const addGame = require('./handlers/game/add-game');
 const removeGame = require('./handlers/game/remove-game');
 const editGame = require('./handlers/game/edit-game');
 
-const getAllGameList = require('./handlers/game/list/get-all-game-list');
-const getPromotedGameList = require('./handlers/game/list/get-promoted-game-list');
+const getGameListAll = require('./handlers/game/list/get-game-list-all');
+const getGameListPromoted = require('./handlers/game/list/get-game-list-promoted');
+
+const getGameReviewScore = require('./handlers/game/review/get-game-review-score');
 // Review
 const addReview = require('./handlers/review/add-review');
 const getReview = require('./handlers/review/get-review');
@@ -85,18 +87,28 @@ module.exports =  [
 		middleware: [isAuthenticated, isGameModerator],
 		handler: editGame,
 	},
+	//#region GameList paths
 	{
 		method: 'get',
-		path: '/game/list/get-all-game-list',
+		path: '/game/list/get-game-list-all',
 		middleware: [],
-		handler: getAllGameList
+		handler: getGameListAll
 	},
 	{
 		method: 'get',
-		path: '/game/list/get-promoted-game-list',
+		path: '/game/list/get-game-list-promoted',
 		middleware: [],
-		handler: getPromotedGameList
+		handler: getGameListPromoted
 	},
+	//endregion
+	//#region GameReview paths
+	{
+		method: 'get',
+		path: '/game/review/get-game-review-score',
+		middleware: [],
+		handler: getGameReviewScore
+	},
+	//endregion
 	//#endregion
 	//#region Review paths
 	{

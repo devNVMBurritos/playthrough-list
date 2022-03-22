@@ -11,10 +11,10 @@ export class GameService {
   ) { }
 
   public get gameList() {
-    return this.http.get<any> (`http://localhost:4201/game/list/get-all-game-list`, {});
+    return this.http.get<any> (`http://localhost:4201/game/list/get-game-list-all`, {});
   }
 
   public get promotedGameList() {
-    return this.http.get<any> (`http://localhost:4201/game/list/get-promoted-game-list`, {});
+    return this.http.get<any> (`http://localhost:4201/game/list/get-game-list-promoted`, {});
   }
 }

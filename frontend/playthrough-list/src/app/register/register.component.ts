@@ -47,9 +47,6 @@ export class RegisterComponent implements OnInit {
       .subscribe(
         data => {
           this.router.navigate([this.returnUrl]);
-        },
-        error => {
-          
         }
     )
   }

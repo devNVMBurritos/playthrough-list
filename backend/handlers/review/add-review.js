@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
 			}
 
 			review.save();
-			res.send('Game added');
+			res.send('Review added');
 		})
 		.catch((err) => {
 			res.status(err.responseStatus);

@@ -8,7 +8,9 @@ var ReviewSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId, ref: 'game',
 	},
 	score: {
-		type: Number
+		type: Number,
+		min: 1,
+		max: 5
 	}
 });
 

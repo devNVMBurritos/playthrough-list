@@ -17,7 +17,7 @@ require('./models/review/review');
 dotenv.config();
 
 const app = express();
-var corsOptions = { origin: process.env.CorsOrigin };
+var corsOptions = { origin: process.env.CorsOrigins?process.env.CorsOrigins.split(','):process.env.CorsOrigin };
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 

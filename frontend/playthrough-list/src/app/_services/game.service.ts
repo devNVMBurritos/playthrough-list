@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Game } from '../_models/game';
 
@@ -23,5 +23,10 @@ export class GameService {
 	public addGame(game: Game, token: string) {
 		const headers = {Authorization: `Bearer ${token}`};
 		return this.http.post<any>(`${environment.apiUrl}/game/add-game`, game, {headers});
+	}
+
+	public getGame(body: any) {
+		const headers = new HttpHeaders({ 'Content-Type': 'application/json'});
+		return this.http.get<Game> (`${environment.apiUrl}/game/get-game`, {headers: headers, params: body});
 	}
 }

@@ -39,12 +39,13 @@ export class AdminComponent implements OnInit {
 		}
 
 		this.loading = true;
-		this.gameService.addGame({ 
+		this.gameService.addGame({
 			title: this.addGameForm.title.value,
 			imageLink: this.addGameForm.imageLink.value,
 			description: this.addGameForm.description.value,
 			review: undefined,
 			promoted: this.addGameForm.promoted.value,
+			_id: ''
 		}, this.authenticationService.currentUserValue.loginToken)
 			.pipe(first())
 			.subscribe(

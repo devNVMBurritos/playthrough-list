@@ -16,12 +16,12 @@ module.exports = async (req, res) => {
 	User.findOne({ username : req.body.username	})
 		.then((user) => {
 			if (!user ) {
-				let error = new Error('User was not found');
+				let error = new Error('User was not found!');
 				error.responseStatus = 404;
 				throw error;
 			}
 			if (!user.validPassword(req.body.password)) {
-				let error = new Error('Invalid Password');
+				let error = new Error('Invalid Password!');
 				error.responseStatus = 400;
 				throw error;
 			}

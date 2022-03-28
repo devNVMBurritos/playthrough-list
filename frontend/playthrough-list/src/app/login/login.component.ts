@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
 					this.router.navigate([localStorage.getItem('interceptedPath')]);
 				},
 				error => {
+					console.log(error.error);
 					this.loginErrorMessage = error.error;
 					this.loading = false;
 				});

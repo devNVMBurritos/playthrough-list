@@ -1,13 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
 body{
-    background-color:brown;
+    --textColor: rgb(255,255,255);
+    --textContrastColor: rgb(0,0,0);
+    --warningColor: #ff9100;
+    --backgroundColor: brown;
+    --bacgrouundContrastColor: darkred;
 }
+
+body{
+    background-color: var(--backgroundColor);
+}
+
+h2 {
+    color: var(--textColor);
+}
+  
+p {
+    color: var(--textColor);
+    text-shadow: 0px -1px 6px var(--textContrastColor);
+}
+label {
+    color: var(--textColor);
+    text-shadow: 0px -1px 6px var(--textContrastColor);
+}
+
 .btn-dark:hover {
-    border: 1px black solid;
-    background-color: darkred;
-    color: black;
-    box-shadow: 0px 0px 5px  2px ##FF9100;
+    border: 1px var(--textContrastColor) solid;
+    background-color: var(--bacgrouundContrastColor);
+    color: var(--textContrastColor);
+    box-shadow: 0px 0px 5px 2px var(--warningColor);
 }
 .warning {
-    color: #FF9100;
+    color: var(--warningColor);
+}
+
+.contrast-background {
+    background-color: var(--bacgrouundContrastColor);
 }

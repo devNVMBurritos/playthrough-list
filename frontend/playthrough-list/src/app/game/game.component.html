@@ -3,24 +3,25 @@
 		<img class="col-lg-12 bg-image hover-shadow promo-image mt-2" src= {{gameValue?.imageLink}} alt="Game Art"/>
 			<h5 class="text-center game-title">{{gameValue?.title}}</h5>
 	</div>
-	<div class="col-lg-8 border border-dark rounded-2 p-3 shadow">
+
+	<div class="contrast-background col-lg-8 border border-dark rounded-2 p-3 shadow">
 		<h2>Game Description:</h2>
 		<p class="border border-dark p-1 rounded-2">{{gameValue?.description}}</p>
 		<div class="row">
 			<div class="pt-3 pb-3 mx-auto col-lg-5 border border-dark rounded-2">
 				<h2>Write a review!</h2>
-				<form class="col-lg-10 mx-auto">
+				<form [formGroup]="reviewGroup" class="col-lg-10 mx-auto">
 					<div class="form-group">
 						<label for="username">Game:</label>
 						<input type="text" class="form-control" value="{{gameValue?.title}}" disabled/>
 					</div>
 					<div class="form-group">
-						<label for="password">Rating(1->5):</label>
-						<input type="range" class="form-range" min="1" max="5">
+						<label class="warning" for="password">Rating:{{starRating}}✰</label>
+						<input formControlName="rating" type="range" class="form-range" min="1" max="5">
 					</div>
 					<div class="form-group">
 						<label for="email">Review:</label>
-						<textarea  type="email" class="form-control"></textarea>
+						<textarea formControlName="review" type="email" class="form-control"></textarea>
 					</div>
 					<div class="form-group">
 						<button class="btn btn-dark col-lg-4 my-auto mt-2" [disabled]="!loggedIn">Post</button>
@@ -30,9 +31,10 @@
 					</div>
 				</form>
 			</div>
+
 			<div class="pt-3 pb-3 mx-auto col-lg-5 border border-dark rounded-2">
 				<h2>Add to playthrough list!</h2>
-				<form class="col-lg-10 mx-auto">
+				<form [formGroup]="playthroughGroup" class="col-lg-10 mx-auto">
 					<div class="form-group">
 						<label for="username">Game:</label>
 						<input type="text" class="form-control" value="{{gameValue?.title}}" disabled/>
@@ -56,6 +58,7 @@
 					</div>
 				</form>
 			</div>
+
 		</div>
 	</div>
 </div>

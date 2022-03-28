@@ -1,0 +1,20 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+import { environment } from 'src/environments/environment';
+import { Review } from '../_models/review';
+
+@Injectable({
+	providedIn: 'root'
+})
+export class ReviewService {
+
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+	constructor(
+		private http: HttpClient
+	) { }
+
+	public addReview(review: Review) {
+		return this.http.post<any>(`${environment.apiUrl}/review/add-review`, review);
+	}
+}

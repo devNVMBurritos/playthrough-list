@@ -1,6 +1,59 @@
-<div class="col-lg-12">
-    <div class="col-lg-3 mr-3 promo-div px-0 mt-auto">
-        <img class="col-lg-12 bg-image hover-shadow promo-image" src={{game?.imageLink}} alt="Game Art"/>
-        <h5 class="text-center game-title">{{game?.title}}</h5>
-    </div>
+<div class="col-lg-12 row mt-5">
+	<div class="col-lg-3 mr-3 promo-div mx-auto my-auto">
+		<img class="col-lg-12 bg-image hover-shadow promo-image mt-2" src= {{gameValue?.imageLink}} alt="Game Art"/>
+			<h5 class="text-center game-title">{{gameValue?.title}}</h5>
+	</div>
+	<div class="col-lg-8 border border-dark rounded-2 p-3 shadow">
+		<h2>Game Description:</h2>
+		<p class="border border-dark p-1 rounded-2">{{gameValue?.description}}</p>
+		<div class="pt-3 pb-3">
+			<h2>Write a review!</h2>
+			<form class="col-lg-6 mx-auto">
+				<div class="form-group">
+					<label for="username">Game:</label>
+					<input type="text" class="form-control" value="{{gameValue?.title}}" disabled/>
+				</div>
+				<div class="form-group">
+					<label for="password">Rating(1->5):</label>
+					<input type="range" class="form-range" min="1" max="5">
+				</div>
+				<div class="form-group">
+					<label for="email">Review:</label>
+					<input type="email" class="form-control"/>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-dark col-lg-4 my-auto" [disabled]="!loggedIn">Post</button>
+					<div *ngIf="!loggedIn">
+						Please login to post reviews!
+					</div>
+				</div>
+			</form>
+		</div>
+			<div class="pt-3 pb-3">
+				<h2>Add to playthrough list!</h2>
+				<form class="col-lg-6 mx-auto">
+					<div class="form-group">
+						<label for="username">Game:</label>
+						<input type="text" class="form-control" value="{{gameValue?.title}}" disabled/>
+					</div>
+					<div class="form-group">
+						<label for="email">playthrough state:</label>
+						<select class="form-select"l>
+							<option selected>Planed to play</option>
+							<option>Currently playing</option>
+							<option>Completed</option>
+							<option>Dropped</option>
+							<option>Will never play</option>
+							<option>100%-ed</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-dark col-lg-4 my-auto" [disabled]="!loggedIn">Add</button>
+						<div *ngIf="!loggedIn">
+								Please login to add playthrough plan!
+						</div>
+					</div>
+				</form>
+			</div>
+	</div>
 </div>

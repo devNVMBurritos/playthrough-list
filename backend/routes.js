@@ -8,6 +8,7 @@ const removeUser = require('./handlers/user/remove-user');
 
 // Game
 const addGame = require('./handlers/game/add-game');
+const getGame = require('./handlers/game/get-game');
 const removeGame = require('./handlers/game/remove-game');
 const editGame = require('./handlers/game/edit-game');
 
@@ -74,6 +75,12 @@ module.exports =  [
 		path: '/game/add-game',
 		middleware: [isAuthenticated, isGameModerator],
 		handler: addGame,
+	},	
+	{
+		method: 'post',
+		path: '/game/get-game',
+		middleware: [],
+		handler: getGame,
 	},
 	{
 		method: 'delete',

@@ -25,8 +25,8 @@ export class GameService {
 		return this.http.post<any>(`${environment.apiUrl}/game/add-game`, game, {headers});
 	}
 
-	public getGame(body: any) {
-		const headers = new HttpHeaders({ 'Content-Type': 'application/json'});
-		return this.http.get<Game> (`${environment.apiUrl}/game/get-game`, {headers: headers, params: body});
+	public getGame(id: string) {
+		const body = { id: id };
+		return this.http.post<Game> (`${environment.apiUrl}/game/get-game`, body);
 	}
 }

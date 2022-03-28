@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { first, tap } from 'rxjs/operators';
 import { Game } from '../_models/game';
+import { AuthenticationService } from '../_services/authentication.service';
 import { GameService } from '../_services/game.service';
 
 @Component({
@@ -12,27 +13,32 @@ import { GameService } from '../_services/game.service';
 	styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-	gameId = '';
-	game = new Game();
+	loggedIn: boolean
+	gameId =  new BehaviorSubject<string>('');
+	game?: Game;
 
 	constructor(
 		private route: ActivatedRoute,
-		private gameService: GameService
+		private gameService: GameService,
+		private authService: AuthenticationService
 	) {
-		this.gameService.getGame(this.gameId)
-			.pipe(first())
-			.subscribe(game => {
-				this.game = game;
-			});
+		this.loggedIn = this.authService.isLoggedIn;
+		this.gameId
+			.subscribe(
+				id => {
+					this.gameService.getGame(id)
+						.subscribe(game => { this.game = game; });
+			})
+
+		this.route.queryParams
+			.subscribe(	HttpParams => {	this.gameId.next(HttpParams.gameId); });
 	}
 
+	get gameValue() {
+		return this.game;
+	}
 	ngOnInit(): void {
-		this.route.queryParams
-			.subscribe(
-				HttpParams => {
-					this.gameId = HttpParams.gameId;
-				}
-			);
+
 	}
 
 }

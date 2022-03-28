@@ -9,7 +9,7 @@ var PlaythroughSchema = new mongoose.Schema({
 	},
 	state: {
 		type: String,
-		enum: ['Will never play', 'Planed to play', 'Currently playing', 'Completed', 'Dropped'],
+		enum: ['Will never play', 'Planed to play', 'Currently playing', 'Completed', 'Dropped', '100%-ed'],
 	}
 });
 

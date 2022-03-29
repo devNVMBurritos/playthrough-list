@@ -37,6 +37,7 @@ module.exports = async (req, res) => {
 				user: res.locals.user,
 				game: game,
 				score: req.body.score,
+				review: req.body.review
 			});
 		})
 		.then((review) => {

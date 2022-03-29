@@ -17,7 +17,6 @@ import { ReviewService } from '../_services/review.service';
 export class GameComponent implements OnInit {
 	gameReview?: Review;
 	error!: string;
-	reviewSent = false;
 	gameId =  new BehaviorSubject<string>('');
 	reviewGroup: FormGroup;
 	playthroughGroup: FormGroup;
@@ -79,38 +78,27 @@ export class GameComponent implements OnInit {
 			return;
 		}
 
-		if (this.gameReview) {
-			this.reviewService.editReview({
-				user: this.authService.currentUserValue.username,
-				game: this.gameId.value,
-				score: this.reviewGroup.controls.rating.value,
-				review: this.reviewGroup.controls.review.value
-			}, this.authService.currentUserValue.loginToken)
-				.subscribe(
-					data => { },
-					err => {
-						this.error = err.error;
-					}
-				);
-
-			return;
-		}
-
-		this.reviewService.addReview({
+		const newReview: Review = {
 			user: this.authService.currentUserValue.id,
 			game: this.gameId.value,
 			score: this.reviewGroup.controls.rating.value,
 			review: this.reviewGroup.controls.review.value
-		}, this.authService.currentUserValue.loginToken)
-			.subscribe(
-				data => {
-					this.reviewSent = true;
-					this.error = '';
-				},
-				err => {
-					this.error = err.error;
-				}
-			);
+		};
+
+		(this.gameReview?
+			this.reviewService.editReview(
+				newReview,
+				this.authService.currentUserValue.loginToken
+			)
+			:this.reviewService.addReview(
+				newReview,
+				this.authService.currentUserValue.loginToken
+			)).subscribe(
+			data => { },
+			err => {
+				this.error = err.error;
+			}
+		);
 	}
 
 	onPlaythroughSubmit() { }

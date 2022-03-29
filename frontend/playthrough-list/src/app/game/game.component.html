@@ -26,11 +26,8 @@
 						<textarea formControlName="review" type="email" class="form-control"></textarea>
 					</div>
 					<div class="form-group">
-						<button *ngIf="!gameReview" class="btn btn-dark col-lg-4 my-auto mt-2" [disabled]="!loggedIn || reviewSent">Post</button>
-						<button *ngIf="gameReview" class="btn btn-dark col-lg-4 my-auto mt-2" [disabled]="!loggedIn || reviewSent">Update</button>
-						<div *ngIf="reviewSent">
-							Review sent!
-						</div>
+						<button *ngIf="!gameReview" class="btn btn-dark col-lg-4 my-auto mt-2" [disabled]="!loggedIn">Post</button>
+						<button *ngIf="gameReview" class="btn btn-dark col-lg-4 my-auto mt-2" [disabled]="!loggedIn">Update</button>
 						<div *ngIf="!loggedIn" class="warning">
 							Please login to post reviews!
 						</div>
@@ -70,4 +67,4 @@
 
 		</div>
 	</div>
-</div>
+</div>-

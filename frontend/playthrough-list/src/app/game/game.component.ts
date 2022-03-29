@@ -89,7 +89,6 @@ export class GameComponent implements OnInit {
 				.subscribe(
 					data => { },
 					err => {
-						console.log(err);
 						this.error = err.error;
 					}
 				);

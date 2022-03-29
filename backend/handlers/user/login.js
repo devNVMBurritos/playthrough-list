@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
 			user.generateToken();
 			user.save();
 
-			res.send(user);
+			res.send(JSON.stringify(user));
 		})
 		.catch((err) => {
 			res.status(err.responseStatus);

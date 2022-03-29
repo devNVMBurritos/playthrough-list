@@ -4,7 +4,7 @@ const Game = mongoose.model('game');
 module.exports = async (req, res) => {
 	Game.find()
 		.then((games) => {
-			res.send(games);
+			res.send(JSON.stringify(games));
 		})
 		.catch((err) => {
 			res.status(400);

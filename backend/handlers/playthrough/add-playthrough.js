@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
 				throw error;
 			}
 			playthrough.save();
-			res.send('Playthrough created!');
+			res.send(JSON.stringify('Playthrough created!'));
 		})		
 		.catch((err) => {
 			res.status(err.responseStatus);

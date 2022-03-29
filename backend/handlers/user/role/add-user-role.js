@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
 				user.save();
 			}
 
-			res.send('Roles added!');
+			res.send(JSON.stringify('Roles added!'));
 		})
 		.catch((err) => {
 			res.status(err.responseStatus);

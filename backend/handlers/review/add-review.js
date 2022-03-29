@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
 			}
 
 			review.save();
-			res.send({'Message':'Review added'});
+			res.send(JSON.stringify('Review added!'));
 		})
 		.catch((err) => {
 			res.status(err.responseStatus);

@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
 		promoted: true
 	}).limit(3)
 		.then((data)=> {
-			res.send(data);
+			res.send(JSON.stringify(data));
 		})
 		.catch((err) => {
 			res.status(400);

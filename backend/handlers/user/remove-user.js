@@ -23,10 +23,12 @@ module.exports = async (req, res) => {
 	User.deleteOne(searchParameter)
 		.then((userRes) => {
 			if (userRes.deletedCount === 1) {
-				res.send('User removed!');
-			} else if(userRes.deletedCount === 0) {
-				throw new Error('User was not found!');
-			}
+				let error = new Error('User does not exist');
+				error.responseStatus = 404;
+				throw error;
+			} 
+
+			res.send(JSON.stringify('User removed!'));
 		}).catch((err) => {
 			res.status(404);
 			res.send(err.message);

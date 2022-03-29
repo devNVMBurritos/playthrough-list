@@ -23,14 +23,14 @@ module.exports = async (req, res) => {
 				throw error;
 			}
 
-			res.send({
+			res.send(JSON.stringify({
 				id: user._id,
 				username: user.username,
 				email: user.email,
 				roles: user.roles,
 				reviews: user.reviews,
 				token: user.token
-			});
+			}));
 		})
 		.catch((err) => {
 			res.status(err.responseStatus);

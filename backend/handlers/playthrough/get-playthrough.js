@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
 				throw error;
 			}
 
-			res.send(playthrough);
+			res.send(JSON.stringify(playthrough));
 		})
 		.catch((err) => {
 			res.status(err.responseStatus);

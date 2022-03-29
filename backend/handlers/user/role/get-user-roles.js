@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
 				error.responseStatus = 404;
 				throw error;
 			}
-			res.send(user.roles);
+			res.send(JSON.stringify(user.roles));
 		})
 		.catch((err) => {
 			res.status(err.responseStatus);

@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
 			}
 			
 			game.save();
-			res.send('successfully updated parameters');
+			res.send(JSON.stringify('successfully updated parameters'));
 		})
 		.catch((err) => {
 			res.status(err.responseStatus);

@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
 
 			playthrough.state = req.body.state;
 			playthrough.save();
-			res.send('Playthrough edited!');
+			res.send(JSON.stringify('Playthrough edited!'));
 		})
 		.catch((err) => {
 			res.status(err.responseStatus);

@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
 				throw error;
 			}
 
-			res.send(game);
+			res.send(JSON.stringify(game));
 		})
 		.catch((err) => {
 			res.status(err.responseStatus);

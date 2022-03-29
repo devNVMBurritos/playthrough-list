@@ -37,6 +37,6 @@ module.exports = async (req, res) => {
 				user.save();
 			}
 
-			res.send('Role removed!');
+			res.send(JSON.stringify('Role removed!'));
 		});
 };

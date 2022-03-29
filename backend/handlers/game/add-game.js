@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
 			}
 
 			game.save();
-			res.send('Game added to database');
+			res.send(JSON.stringify('Game added to database'));
 		})
 		.catch((err) => {
 			res.status(err.responseStatus);

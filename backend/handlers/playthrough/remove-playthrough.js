@@ -27,12 +27,13 @@ module.exports = async (req, res) => {
 			});
 		})
 		.then((deleteResponse) => {
-			if (deleteResponse.deletedCount === 1) {
-				res.send('deleted');
-			} else {
-				res.status(404);
-				res.send('Could not find playthrough');
+			if (deleteResponse.deletedCount !== 1) {
+				let error = new Error('Could not find playthrough');
+				error.responseStatus = 404;
+				throw error;
 			}
+
+			res.send(JSON.stringify('deleted'));
 		})
 		.catch((err) => {
 			res.status(err.responseStatus);

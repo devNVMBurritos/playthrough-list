@@ -3,6 +3,20 @@ const Review = mongoose.model('review');
 const Game = mongoose.model('game');
 
 module.exports = async (req, res) => {
+	if (!req.body.user) {
+		res.status(400);
+		res.send('user parameter is missing');
+
+		return;
+	}
+
+	if (!req.body.game) {
+		res.status(400);
+		res.send('game parameter is missing');
+
+		return;
+	}
+
 	let parameter;
 
 	if (!req.body.score) {
@@ -10,13 +24,16 @@ module.exports = async (req, res) => {
 		return;
 	}
 
-	if (req.body.id) {
-		parameter = {_id: req.body.id};
+	if (req.body.game) {
+		parameter = {_id: req.body.game};
 	} else if (req.body.title) {
 		parameter = {title: req.body.title};
 	}
 
-	Review.findOne()
+	Review.findOne({
+		user: req.body.user,
+		game: req.body.game
+	})
 		.then((review) => {
 			if (review) {
 				let error = new Error('Review already exists!');
@@ -32,13 +49,14 @@ module.exports = async (req, res) => {
 				error.responseStatus = 404;
 				throw error;
 			}
-
-			return Review.create({
-				user: res.locals.user,
-				game: game,
+			const review = {
+				user: res.locals.user._id,
+				game: game._id,
 				score: req.body.score,
 				review: req.body.review
-			});
+			};
+
+			return Review.create(review);
 		})
 		.then((review) => {
 			if (!review) {

@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
 
 			return Review.findOne({
 				user: res.locals.user,
-				game: game,
+				game: game._id,
 			});
 		})
 		.then((review) => {

@@ -40,6 +40,7 @@ export class AuthenticationService {
 			`${environment.apiUrl}/user/login`, 
 			{ username, password }
 		).pipe(map(user => {
+			user.id = user._id;
 			localStorage.setItem('currentUser', JSON.stringify(user));
 			this._currentUserSubject.next(user);
 			this._isLoggedIn = true;

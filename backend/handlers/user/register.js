@@ -21,6 +21,8 @@ module.exports = async (req, res) => {
 				res.status(400);
 				res.send('Could not create the ');
 			}
+
+			newUser.roles.push('customer');
 			newUser.save((err) => { console.log(err); });
 			res.send(JSON.stringify(newUser));
 		})

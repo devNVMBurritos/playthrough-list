@@ -94,6 +94,7 @@ module.exports =  [
 		middleware: [isAuthenticated, isGameModerator],
 		handler: editGame,
 	},
+	//#endregion
 	//#region GameList paths
 	{
 		method: 'get',
@@ -108,14 +109,14 @@ module.exports =  [
 		handler: getGameListPromoted
 	},
 	//endregion
-	//#region GameReview paths
+	//#endregion
+	//#region GameReviewScore paths
 	{
 		method: 'get',
 		path: '/game/review/get-game-review-score',
 		middleware: [],
 		handler: getGameReviewScore
 	},
-	//endregion
 	//#endregion
 	//#region Review paths
 	{
@@ -125,7 +126,7 @@ module.exports =  [
 		handler: addReview,
 	},
 	{
-		method: 'put',
+		method: 'post',
 		path: '/review/edit-review',
 		middleware: [isAuthenticated, isCustomer],
 		handler: editReview,
@@ -137,7 +138,7 @@ module.exports =  [
 		handler: removeReview,
 	},
 	{
-		method: 'get',
+		method: 'post',
 		path: '/review/get-review',
 		middleware: [isAuthenticated, isCustomer],
 		handler: getReview,

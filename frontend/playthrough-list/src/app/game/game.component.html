@@ -7,10 +7,12 @@
 	<div class="contrast-background col-lg-8 border border-dark rounded-2 p-3 shadow">
 		<h2>Game Description:</h2>
 		<p class="border border-dark p-1 rounded-2">{{gameValue?.description}}</p>
+
 		<div class="row">
 			<div class="pt-3 pb-3 mx-auto col-lg-5 border border-dark rounded-2">
-				<h2>Write a review!</h2>
-				<form [formGroup]="reviewGroup" class="col-lg-10 mx-auto">
+				<h2 *ngIf="!gameReview">Write a review!</h2>
+				<h2 *ngIf="gameReview">Review edit</h2>
+				<form [formGroup]="reviewGroup" class="col-lg-10 mx-auto" (ngSubmit)="onReviewSubmit()">
 					<div class="form-group">
 						<label for="username">Game:</label>
 						<input type="text" class="form-control" value="{{gameValue?.title}}" disabled/>
@@ -24,9 +26,16 @@
 						<textarea formControlName="review" type="email" class="form-control"></textarea>
 					</div>
 					<div class="form-group">
-						<button class="btn btn-dark col-lg-4 my-auto mt-2" [disabled]="!loggedIn">Post</button>
+						<button *ngIf="!gameReview" class="btn btn-dark col-lg-4 my-auto mt-2" [disabled]="!loggedIn || reviewSent">Post</button>
+						<button *ngIf="gameReview" class="btn btn-dark col-lg-4 my-auto mt-2" [disabled]="!loggedIn || reviewSent">Update</button>
+						<div *ngIf="reviewSent">
+							Review sent!
+						</div>
 						<div *ngIf="!loggedIn" class="warning">
 							Please login to post reviews!
+						</div>
+						<div *ngIf="error" class="warning">
+							Could not send review! ({{error}})
 						</div>
 					</div>
 				</form>

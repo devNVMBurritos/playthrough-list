@@ -14,7 +14,18 @@ export class ReviewService {
 		private http: HttpClient
 	) { }
 
-	public addReview(review: Review) {
-		return this.http.post<any>(`${environment.apiUrl}/review/add-review`, review);
+	public addReview(review: Review, token: string) {
+		const headers = {Authorization: `Bearer ${token}`};
+		return this.http.post<any>(`${environment.apiUrl}/review/add-review`, review, {headers});
+	}
+
+	public getReview(gameId: string, token: string) {
+		const headers = {Authorization: `Bearer ${token}`};
+		return this.http.post<any>(`${environment.apiUrl}/review/get-review`, {game: gameId }, {headers});
+	}
+
+	public editReview(review: Review, token: string) {
+		const headers = {Authorization: `Bearer ${token}`};
+		return this.http.post<any>(`${environment.apiUrl}/review/edit-review`, review, {headers});
 	}
 }

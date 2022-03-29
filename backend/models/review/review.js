@@ -17,4 +17,6 @@ var ReviewSchema = new mongoose.Schema({
 	}
 });
 
+ReviewSchema.index({ user: 1, game: 1 },{ unique: true });
+
 mongoose.model('review', ReviewSchema);

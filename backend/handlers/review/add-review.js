@@ -16,7 +16,16 @@ module.exports = async (req, res) => {
 		parameter = {title: req.body.title};
 	}
 
-	Game.findOne(parameter)
+	Review.findOne()
+		.then((review) => {
+			if (review) {
+				let error = new Error('Review already exists!');
+				error.responseStatus = 400;
+				throw error;
+			}
+
+			return 	Game.findOne(parameter);
+		})
 		.then((game) => {
 			if (!game) {
 				let error = new Error('Game was not found');
@@ -38,7 +47,7 @@ module.exports = async (req, res) => {
 			}
 
 			review.save();
-			res.send('Review added');
+			res.send({'Message':'Review added'});
 		})
 		.catch((err) => {
 			res.status(err.responseStatus);

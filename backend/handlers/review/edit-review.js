@@ -37,8 +37,12 @@ module.exports = async (req, res) => {
 				throw error;
 			}
 
+			if (req.body.review) {
+				review.review = req.body.review;
+			}
+
 			review.score = req.body.score;
 			review.save();
-			res.send('Review Modified!');
+			res.send(JSON.stringify('Review Modified!'));
 		});
 };

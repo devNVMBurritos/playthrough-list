@@ -5,38 +5,39 @@ import { User } from '../_models/user';
 import { AuthenticationService } from '../_services/authentication.service';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+	selector: 'app-profile',
+	templateUrl: './profile.component.html',
+	styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  logoutForm: FormGroup;
-  username: string;
+	logoutForm: FormGroup;
+	username: string;
 
-  user: User = {
-    username: 'bob',
-    email: '',
-    password: '',
-    isAdmin: false,
-    roles: [],
-    loginToken: ''
-  };
+	user: User = {
+		id: '',
+		username: 'bob',
+		email: '',
+		password: '',
+		isAdmin: false,
+		roles: [],
+		loginToken: ''
+	};
 
-  constructor(
+	constructor(
     private formBuilder: FormBuilder,
     private authService: AuthenticationService,
     private router: Router
-  ) {
-    this.username = authService.currentUserValue.username;
-    this.logoutForm = this.formBuilder.group({});
-   }
+	) {
+		this.username = authService.currentUserValue.username;
+		this.logoutForm = this.formBuilder.group({});
+	}
 
-  ngOnInit(): void {
-  }
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+	ngOnInit(): void {	}
 
-  onSubmit() {
-    this.authService.logout();
-    this.router.navigate(['login']);
-  }
+	onSubmit() {
+		this.authService.logout();
+		this.router.navigate(['login']);
+	}
 
 }

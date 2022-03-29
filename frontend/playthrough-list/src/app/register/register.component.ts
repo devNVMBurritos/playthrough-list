@@ -48,8 +48,8 @@ export class RegisterComponent implements OnInit {
 			.subscribe(
 				data => {
 					console.log(data);
-					this.router.navigate([localStorage.getItem('interceptedPath')]);
 					this.loading = false;
+					this.router.navigate(['login']);
 				}
 			);
 	}

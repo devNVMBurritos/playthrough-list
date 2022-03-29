@@ -49,7 +49,12 @@ export class LoginComponent implements OnInit {
 			.pipe(first())
 			.subscribe(
 				data => {
-					this.router.navigate([localStorage.getItem('interceptedPath')]);
+					if (localStorage.getItem('interceptedPath') != null) {
+						this.router.navigate([localStorage.getItem('interceptedPath')]);
+						return;
+					}
+
+					this.router.navigate(['']);	
 				},
 				error => {
 					console.log(error.error);

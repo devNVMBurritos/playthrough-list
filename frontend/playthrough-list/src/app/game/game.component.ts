@@ -7,6 +7,7 @@ import { Game } from '../_models/game';
 import { Review } from '../_models/review';
 import { AuthenticationService } from '../_services/authentication.service';
 import { GameService } from '../_services/game.service';
+import { PlaythroughService } from '../_services/playthrough.service';
 import { ReviewService } from '../_services/review.service';
 
 @Component({
@@ -28,6 +29,7 @@ export class GameComponent implements OnInit {
 		private gameService: GameService,
 		private authService: AuthenticationService,
 		private reviewService: ReviewService,
+		private playthroughService: PlaythroughService,
 		private formBuilder: FormBuilder
 	) {
 		this.reviewGroup = formBuilder.group({
@@ -35,7 +37,7 @@ export class GameComponent implements OnInit {
 			review: ['', [Validators.required]]
 		});
 		this.playthroughGroup = formBuilder.group({
-
+			state:  ['Planned to play' , [Validators.required]]
 		});
 		this.loggedIn = this.authService.isLoggedIn;
 		this.gameId
@@ -101,7 +103,20 @@ export class GameComponent implements OnInit {
 		);
 	}
 
-	onPlaythroughSubmit() { }
+	onPlaythroughSubmit() { 
+		this.playthroughService.addPlaythrough({
+			game: this.gameId.value,
+			state: this.playthroughGroup.controls.state.value
+		}, this.authService.currentUserValue.loginToken)
+			.subscribe(
+				data => {
+					console.log(data);
+				},
+				err =>{
+					console.log(err);
+				}
+			);
+	}
 
 	get starRating() {
 		return this.reviewGroup.controls.rating.value.toString();

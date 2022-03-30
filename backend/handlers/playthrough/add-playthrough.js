@@ -10,8 +10,8 @@ module.exports = async (req, res) => {
 		return;
 	}
 
-	if (req.body.id) {
-		parameters = {_id: req.body.id};
+	if (req.body.game) {
+		parameters = {_id: req.body.game};
 	} else  {
 		parameters = {title: req.body.title};
 	}

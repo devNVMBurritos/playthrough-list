@@ -18,4 +18,10 @@ export class PlaythroughService {
 		const headers = {Authorization: `Bearer ${token}`};
 		return this.http.post<any>(`${environment.apiUrl}/playthrough/add-playthrough`, playthrough, {headers});
 	}
+
+	public getPlaythrough(game: string, token:string) {
+		const headers = {Authorization: `Bearer ${token}`};
+		return this.http.post<any>(`${environment.apiUrl}/playthrough/get-playthrough`, {game: game}, {headers});
+	
+	}
 }

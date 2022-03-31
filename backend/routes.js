@@ -158,8 +158,8 @@ module.exports =  [
 		handler: editPlaythrough,
 	},  
 	{
-		method: 'get',
-		path: '/playthrough/add-playthrough',
+		method: 'post',
+		path: '/playthrough/get-playthrough',
 		middleware: [isAuthenticated, isCustomer],
 		handler: getPlaythrough,
 	},

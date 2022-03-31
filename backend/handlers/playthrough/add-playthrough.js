@@ -27,6 +27,7 @@ module.exports = async (req, res) => {
 			return Playthrough.create({
 				user: res.locals.user,
 				game: game,
+				state: req.body.state
 			});
 		})
 		.then((playthrough) => {
@@ -36,7 +37,7 @@ module.exports = async (req, res) => {
 				throw error;
 			}
 			playthrough.save();
-			res.send(JSON.stringify('Playthrough created!'));
+			res.send(JSON.stringify(playthrough));
 		})		
 		.catch((err) => {
 			res.status(err.responseStatus);

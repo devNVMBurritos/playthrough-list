@@ -5,8 +5,8 @@ const Game = mongoose.model('game');
 module.exports = async (req, res) => {
 	let parameters;
 
-	if (req.body.id) {
-		parameters = {_id: req.body.id};
+	if (req.body.game) {
+		parameters = {_id: req.body.game};
 	} else if (req.body.title) {
 		parameters = {
 			title: req.body.title
@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
 
 			return Playthrough.findOne({
 				user: res.locals.user,
-				game: game
+				game: game._id
 			});
 		})
 		.then((playthrough) => {

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { Game } from '../_models/game';
+import { Playthrough } from '../_models/playthrough';
 import { Review } from '../_models/review';
 import { AuthenticationService } from '../_services/authentication.service';
 import { GameService } from '../_services/game.service';
@@ -17,6 +18,7 @@ import { ReviewService } from '../_services/review.service';
 })
 export class GameComponent implements OnInit {
 	gameReview?: Review;
+	playthrough?: Playthrough;
 	error!: string;
 	gameId =  new BehaviorSubject<string>('');
 	reviewGroup: FormGroup;
@@ -37,7 +39,7 @@ export class GameComponent implements OnInit {
 			review: ['', [Validators.required]]
 		});
 		this.playthroughGroup = formBuilder.group({
-			state:  ['Planned to play' , [Validators.required]]
+			state:  ['Planed to play' , [Validators.required]]
 		});
 		this.loggedIn = this.authService.isLoggedIn;
 		this.gameId
@@ -50,6 +52,14 @@ export class GameComponent implements OnInit {
 									this.gameReview = review;
 									this.reviewGroup.controls.review.setValue(review.review); 
 									this.reviewGroup.controls.rating.setValue(review.score);
+								});
+							this.playthroughService.getPlaythrough(id, this.authService.currentUserValue.loginToken)
+								.subscribe( data => {
+									this.playthrough = data;
+									this.playthroughGroup.controls.state.setValue(data.state);
+								},
+								err => {
+									console.log(err);
 								});
 						}
 
@@ -110,10 +120,10 @@ export class GameComponent implements OnInit {
 		}, this.authService.currentUserValue.loginToken)
 			.subscribe(
 				data => {
-					console.log(data);
+					this.playthrough = data;
 				},
 				err =>{
-					console.log(err);
+
 				}
 			);
 	}

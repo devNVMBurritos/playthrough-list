@@ -5,8 +5,8 @@ const Game = mongoose.model('game');
 module.exports = async (req, res) => {
 	let parameter;
 
-	if (req.body.id) {
-		parameter = {_id: req.body.id};
+	if (req.body.game) {
+		parameter = {_id: req.body.game};
 	}
 	else if (req.body.title) {
 		parameter = {title: req.body.title};

@@ -21,7 +21,7 @@ export class ReviewService {
 
 	public getReview(gameId: string, token: string) {
 		const headers = {Authorization: `Bearer ${token}`};
-		return this.http.post<any>(`${environment.apiUrl}/review/get-review`, {id: gameId }, {headers});
+		return this.http.post<any>(`${environment.apiUrl}/review/get-review`, {game: gameId }, {headers});
 	}
 
 	public editReview(review: Review, token: string) {

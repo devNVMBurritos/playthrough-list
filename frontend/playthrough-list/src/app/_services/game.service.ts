@@ -22,7 +22,7 @@ export class GameService {
 
 	public addGame(game: Game, token: string) {
 		const headers = {Authorization: `Bearer ${token}`};
-		return this.http.post<any>(`${environment.apiUrl}/game/add-game`, game, {headers});
+		return this.http.post<any>(`${environment.apiUrl}/game/add-game`, game._id, {headers});
 	}
 
 	public getGame(id: string) {

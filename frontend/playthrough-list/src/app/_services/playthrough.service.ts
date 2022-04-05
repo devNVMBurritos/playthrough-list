@@ -22,6 +22,10 @@ export class PlaythroughService {
 	public getPlaythrough(game: string, token:string) {
 		const headers = {Authorization: `Bearer ${token}`};
 		return this.http.post<any>(`${environment.apiUrl}/playthrough/get-playthrough`, {game: game}, {headers});
-	
+	}
+
+	public getUsersPlaythroughList(token: string) {
+		const headers = {Authorization: `Bearer ${token}`};
+		return this.http.post<any>(`${environment.apiUrl}/playthrough/list/get-playthrough-list-users`, {}, {headers});
 	}
 }

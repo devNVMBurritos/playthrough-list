@@ -1,6 +1,9 @@
+import { Game } from './game';
+import { User } from './user';
+
 export class Review {
-	user!: string;
-	game!: string;
+	user!: User;
+	game!: Game;
 	score!: number;
 	review!: string;
 }

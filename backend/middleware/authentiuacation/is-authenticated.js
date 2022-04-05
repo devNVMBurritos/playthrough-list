@@ -7,19 +7,21 @@ module.exports = async (req, res, next) => {
 	let bearerToken;
 
 	if (!authHeader) {
-		res.send('No authentication token was found');
+		res.send(JSON.stringify('No authentication token was found'));
 		return;
 	}
 	if (authHeader.split(' ')[0] === 'Bearer') {
 		bearerToken = authHeader.split(' ')[1];
 	}
-	const user = await User.findOne({
+	User.findOne({
 		loginToken: bearerToken,
+	}). then( user => {
+		if (!user) {
+			res.send(JSON.stringify('Invalid token'));
+			return;
+		}
+
+		res.locals.user = user;
+		next();
 	});
-	if (!user) {
-		res.send('Invalid token');
-		return;
-	}
-	res.locals.user = user;
-	next();
 };

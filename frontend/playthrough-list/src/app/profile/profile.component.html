@@ -1,4 +1,27 @@
 <p>Hello {{username}}!</p>
+<div *ngFor="let review of reviews"> 
+  <form class="col-md-3">
+    <label>{{review.game.title}}</label>
+    <div class="form-group">
+      <textarea type="email" class="form-control" disabled>{{review.review}}</textarea>
+    </div>
+  </form>
+</div>
+<div *ngFor="let playthrough of playthroughs"> 
+  <form class="col-md-3">
+    <label>{{playthrough.game.title}}</label>
+    <div class="form-group">
+      <select value="{{playthrough.state}}"  class="form-select"l>
+        <option value="Planed to play">Planed to play</option>
+        <option value="Currently playing">Currently playing</option>
+        <option value="Completed">Completed</option>
+        <option value="Dropped">Dropped</option>
+        <option value="Will never play">Will never play</option>
+        <option value="100%-ed">100%-ed</option>
+      </select>
+    </div>
+  </form>
+</div>
 <form [formGroup]="logoutForm" (ngSubmit)="onSubmit()">
   <button >Logout</button>
 </form>

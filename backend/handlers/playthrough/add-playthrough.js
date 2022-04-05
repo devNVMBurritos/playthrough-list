@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
 	}
 
 	if (req.body.game) {
-		parameters = {_id: req.body.game};
+		parameters = {_id: req.body.game._id};
 	} else  {
 		parameters = {title: req.body.title};
 	}
@@ -29,6 +29,10 @@ module.exports = async (req, res) => {
 				game: game,
 				state: req.body.state
 			});
+		})
+		.catch((err) => {
+			res.status(400);
+			res.send(JSON.stringify(err.message));
 		})
 		.then((playthrough) => {
 			if (!playthrough) {

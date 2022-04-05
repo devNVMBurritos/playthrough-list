@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { User } from '../_models/user';
 import { Game } from '../_models/game';
 import { Playthrough } from '../_models/playthrough';
 import { Review } from '../_models/review';
@@ -91,8 +92,8 @@ export class GameComponent implements OnInit {
 		}
 
 		const newReview: Review = {
-			user: this.authService.currentUserValue.id,
-			game: this.gameId.value,
+			user: new User(this.authService.currentUserValue.id),
+			game: new Game(this.gameId.value),
 			score: this.reviewGroup.controls.rating.value,
 			review: this.reviewGroup.controls.review.value
 		};
@@ -115,7 +116,7 @@ export class GameComponent implements OnInit {
 
 	onPlaythroughSubmit() { 
 		this.playthroughService.addPlaythrough({
-			game: this.gameId.value,
+			game: new Game(this.gameId.value),
 			state: this.playthroughGroup.controls.state.value
 		}, this.authService.currentUserValue.loginToken)
 			.subscribe(

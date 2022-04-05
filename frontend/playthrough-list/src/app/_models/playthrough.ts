@@ -1,4 +1,9 @@
+import { Game } from './game';
+
 export class Playthrough {
-	game!: string;
+	constructor (gameId: string) {
+		this.game = new Game(gameId);
+	}
+	game!: Game;
 	state!: string;
 }

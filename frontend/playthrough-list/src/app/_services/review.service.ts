@@ -28,4 +28,9 @@ export class ReviewService {
 		const headers = {Authorization: `Bearer ${token}`};
 		return this.http.post<any>(`${environment.apiUrl}/review/edit-review`, review, {headers});
 	}
+	
+	public getUserReviewList(token: string) {
+		const headers = {Authorization: `Bearer ${token}`};
+		return this.http.post<any>(`${environment.apiUrl}/review/list/get-review-list-users`, {}, {headers});
+	}
 }

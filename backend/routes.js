@@ -15,18 +15,22 @@ const editGame = require('./handlers/game/edit-game');
 const getGameListAll = require('./handlers/game/list/get-game-list-all');
 const getGameListPromoted = require('./handlers/game/list/get-game-list-promoted');
 
-const getGameReviewScore = require('./handlers/game/review/get-game-review-score');
 // Review
 const addReview = require('./handlers/review/add-review');
 const getReview = require('./handlers/review/get-review');
 const editReview = require('./handlers/review/edit-review');
 const removeReview = require('./handlers/review/remove-review');
 
+const getGameReviewScore = require('./handlers/game/review/get-game-review-score');
+const getReviewListUsers = require('./handlers/review/list/get-review-list-users');
+
 // Playthrough
 const addPlaythrough = require('./handlers/playthrough/add-playthrough');
 const editPlaythrough = require('./handlers/playthrough/edit-playthrough');
 const removePlaythrough = require('./handlers/playthrough/remove-playthrough');
 const getPlaythrough = require('./handlers/playthrough/get-playthrough');
+
+const getPlaythroughListUsers = require('./handlers/playthrough/list/get-playthrough-list-users');
 
 // Middleware:
 const isAuthenticated = require('./middleware/authentiuacation/is-authenticated');
@@ -143,6 +147,14 @@ module.exports =  [
 		middleware: [isAuthenticated, isCustomer],
 		handler: getReview,
 	},
+	//#region ReveiwList paths
+	{
+		method: 'post',
+		path: '/review/list/get-review-list-users',
+		middleware: [isAuthenticated, isCustomer],
+		handler: getReviewListUsers
+	},
+	//#endregion
 	//#endregion
 	//#region Playthrough paths
 	{
@@ -168,6 +180,15 @@ module.exports =  [
 		path: '/playthrough/remove-playthrough',
 		middleware: [isAuthenticated, isCustomer],
 		handler: removePlaythrough,
+	},	
+	//#region Playthrough paths
+	{
+		method: 'post',
+		path: '/playthrough/list/get-playthrough-list-users',
+		middleware: [isAuthenticated, isCustomer],
+		handler: getPlaythroughListUsers,
 	},
+
+	//#endregion
 	//#endregion
 ];

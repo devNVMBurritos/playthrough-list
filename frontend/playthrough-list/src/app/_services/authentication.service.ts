@@ -19,7 +19,7 @@ export class AuthenticationService {
 			this._currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')!));
 			this._isLoggedIn = true;
 		} else {
-			this._currentUserSubject = new BehaviorSubject<User>(new User);
+			this._currentUserSubject = new BehaviorSubject<User>(new User(''));
 			this._isLoggedIn = false;
 		}
     
@@ -50,7 +50,7 @@ export class AuthenticationService {
 
 	logout() {
 		localStorage.removeItem('currentUser');
-		this._currentUserSubject.next(new User);
+		this._currentUserSubject.next(new User(''));
 		this._isLoggedIn = false;
 	}
 }

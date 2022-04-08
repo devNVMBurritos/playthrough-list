@@ -5,14 +5,14 @@ const Game = mongoose.model('game');
 module.exports = async (req, res) => {
 	if (!req.body.user) {
 		res.status(400);
-		res.send('user parameter is missing');
+		res.send(JSON.stringify('user parameter is missing'));
 
 		return;
 	}
 
 	if (!req.body.game) {
 		res.status(400);
-		res.send('game parameter is missing');
+		res.send(JSON.stringify('game parameter is missing'));
 
 		return;
 	}
@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
 	let parameter;
 
 	if (!req.body.score) {
-		res.send('Missing score value!');
+		res.send(JSON.stringify('Missing score value!'));
 		return;
 	}
 
@@ -70,6 +70,6 @@ module.exports = async (req, res) => {
 		})
 		.catch((err) => {
 			res.status(err.responseStatus);
-			res.send(err.message);
+			res.send(JSON.stringify(err.message));
 		});
 };

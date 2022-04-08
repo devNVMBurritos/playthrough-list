@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
 
 	if (!passwordRegExp.test(req.body.password)) {
 		res.status(400);
-		res.send('Invalid Password');
+		res.send(JSON.stringify('Invalid Password'));
 
 		return;
 	}
@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
 		.then((newUser) => {
 			if (!newUser) {
 				res.status(400);
-				res.send('Could not create the ');
+				res.send(JSON.stringify('Could not create the '));
 			}
 
 			newUser.roles.push('customer');
@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
 			res.send(JSON.stringify(newUser));
 		})
 		.catch(err => {
-			res.send(err);
+			res.send(JSON.stringify(err));
 		});
 
 };

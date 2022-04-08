@@ -4,13 +4,13 @@ const User = mongoose.model('user');
 module.exports = async (req, res) => {
 	if (!req.body.username) {
 		res.status(400);
-		res.send('username was not provided!');
+		res.send(JSON.stringify('username was not provided!'));
 		return;
 	}
 
 	if (!req.body.password) {
 		res.status(400);
-		res.send('password was not provided!');
+		res.send(JSON.stringify('password was not provided!'));
 	}
 
 	User.findOne({ username : req.body.username	})
@@ -33,6 +33,6 @@ module.exports = async (req, res) => {
 		})
 		.catch((err) => {
 			res.status(err.responseStatus);
-			res.send(err.message);
+			res.send(JSON.stringify(err.message));
 		});
 };

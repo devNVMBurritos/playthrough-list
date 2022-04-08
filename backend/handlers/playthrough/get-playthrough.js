@@ -37,6 +37,6 @@ module.exports = async (req, res) => {
 		})
 		.catch((err) => {
 			res.status(err.responseStatus);
-			res.send(err.message);
+			res.send(JSON.stringify(err.message));
 		});
 };

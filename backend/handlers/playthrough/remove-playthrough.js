@@ -3,11 +3,32 @@ const Playthrough = mongoose.model('playthrough');
 const Game = mongoose.model('game');
 
 module.exports = async (req, res) => {
+	if (!req.body.id && !req.body.title) {
+		res.status(400);
+		res.send(JSON.stringify('Missing parameter "id" or "title".'));
+		
+		return;
+	}
+
 	let parameters;
 
 	if (req.body.id) {
+		if (typeof req.body.id !== 'string') {
+			req.status(400);
+			req.send(JSON.stringify('"id" must be a string')); 
+
+			return;
+		}
+		
 		parameters = {_id: req.body.id};
-	} else if (req.body.title) {
+	} else {
+		if (typeof req.body.title !== 'string') {
+			req.status(400);
+			req.send(JSON.stringify('"title" must be a string')); 
+
+			return;
+		}
+
 		parameters = {
 			title: req.body.title
 		};
@@ -37,6 +58,6 @@ module.exports = async (req, res) => {
 		})
 		.catch((err) => {
 			res.status(err.responseStatus);
-			res.send(err.message);
+			res.send(JSON.stringify(err.message));
 		});
 };

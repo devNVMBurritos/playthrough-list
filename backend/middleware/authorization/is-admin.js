@@ -7,6 +7,6 @@ module.exports = function (req, res, next) {
 		next();
 		return;
 	}
-	res.send('Unauthorized access!');
+	res.sendJSON.stringify(('Unauthorized access!'));
 	return;
 };

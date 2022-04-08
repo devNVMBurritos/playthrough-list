@@ -6,17 +6,33 @@ module.exports = async (req, res) => {
 	let parameters;
 
 	if (!req.body.state) {
-		res.send('Missing playthrough "state" field!');
+		res.send(JSON.stringify('Missing playthrough "state" field!'));
 		return;
 	}
 
 	if (req.body.game) {
+		if (typeof req.body.game !== 'string') {
+			req.status(400);
+			req.send('game is not a string');
+			return;
+		}
+
 		parameters = {_id: req.body.game._id};
 	} else  {
+		if (typeof req.body.title !== 'string') {
+			req.status(400);
+			req.send('title is not a string');
+			return;
+		}
+
 		parameters = {title: req.body.title};
 	}
 
 	Game.findById(parameters)
+		.catch((err) => {
+			res.status(400);
+			res.send(JSON.stringify(err.message));
+		})
 		.then((game) => {
 			if (!game) {
 				let error = new Error('Game was not found');
@@ -45,7 +61,7 @@ module.exports = async (req, res) => {
 		})		
 		.catch((err) => {
 			res.status(err.responseStatus);
-			res.send(err.message);
+			res.send(JSON.stringify(err.message));
 		});
 
 };

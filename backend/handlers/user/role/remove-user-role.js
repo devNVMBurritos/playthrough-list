@@ -2,13 +2,20 @@ const mongoose = require('mongoose');
 const User = mongoose.model('user');
 
 module.exports = async (req, res) => {
+	if (!req.body.id && !req.body.username){
+		res.status(400);
+		res.send(JSON.stringify('Missing field: Username or _id'));
+
+		return;
+	}
+
 	if (!req.body.role) {
-		res.send('No role were given');
+		res.send(JSON.stringify('No role were given'));
+
 		return;
 	}
 
 	let parameter;
-
 	if (req.body.id) {
 		parameter = {_id: req.body.id};
 	} else if (req.body.username) {
@@ -17,7 +24,7 @@ module.exports = async (req, res) => {
   
 	if (!parameter) {
 		res.status(400);
-		res.send('Missing parameter: id or username');
+		res.send(JSON.stringify('Missing parameter: id or username'));
 	}
 
 	User.findOne(parameter)

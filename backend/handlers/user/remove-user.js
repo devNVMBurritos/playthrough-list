@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 const User = mongoose.model('user');
 
 module.exports = async (req, res) => {
-	let searchParameter;
-
 	if (!req.body.id && !req.body.username){
 		res.status(400);
-		res.send('Missing field: Username or _id');
+		res.send(JSON.stringify('Missing field: Username or _id'));
+
 		return;
 	}
 
+	let searchParameter;
 	if (req.body.id) { 
 		searchParameter = {
 			_id: req.body.id

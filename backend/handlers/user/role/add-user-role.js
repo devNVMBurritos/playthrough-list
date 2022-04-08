@@ -2,17 +2,18 @@ const mongoose = require('mongoose');
 const User = mongoose.model('user');
 
 module.exports = async (req, res) => {
+	if (!req.body.id && !req.body.username){
+		res.status(400);
+		res.send(JSON.stringify('Missing field: Username or _id'));
+
+		return;
+	}
 
 	let parameter;
 	if (req.body.id) {
 		parameter = {_id: req.body.id};
 	} else if (req.body.username) {
 		parameter = {username: req.body.username};
-	}
-  
-	if (!parameter) {
-		res.status(400);
-		res.send('Missing parameter: id or username');
 	}
 
 	User.findOne(parameter)
@@ -32,6 +33,6 @@ module.exports = async (req, res) => {
 		})
 		.catch((err) => {
 			res.status(err.responseStatus);
-			res.send(err.message);
+			res.sendJSON.stringify((err.message));
 		});
 };

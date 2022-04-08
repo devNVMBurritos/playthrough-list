@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Playthrough = mongoose.model('playthrough');
 
 module.exports = async (req, res) => {
-
 	Playthrough.find({
 		user: res.locals.user,
 	}).populate('game')

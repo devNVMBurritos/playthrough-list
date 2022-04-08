@@ -3,13 +3,19 @@ const Review = mongoose.model('review');
 const Game = mongoose.model('game');
 
 module.exports = async (req, res) => {
-	let parameter;
-
-	if (!req.body.score) {
-		res.send('Missing score value!');
+	if (!req.body.id && !req.body.title) {
+		res.status(400);
+		res.send(JSON.stringify('Missing parameter "id" or "title".'));
+		
 		return;
 	}
 
+	if (!req.body.score) {
+		res.send(JSON.stringify('Missing score value!'));
+		return;
+	}
+
+	let parameter;
 	if (req.body.id) {
 		parameter = {_id: req.body.id};
 	}

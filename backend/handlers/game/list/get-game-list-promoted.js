@@ -10,6 +10,6 @@ module.exports = async (req, res) => {
 		})
 		.catch((err) => {
 			res.status(400);
-			res.send(err);
+			res.send(JSON.stringify(err.message));
 		});
 };

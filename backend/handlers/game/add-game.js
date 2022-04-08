@@ -8,6 +8,10 @@ module.exports = async (req, res) => {
 		description: req.body.description,
 		promoted: req.body.promoted
 	})
+		.catch((err) => {
+			req.status(400);
+			req.send(JSON.stringify(err.message));
+		})
 		.then((game) => {
 			if (!game) {
 				let error = new Error('Game object could not be created');
@@ -20,7 +24,7 @@ module.exports = async (req, res) => {
 		})
 		.catch((err) => {
 			res.status(err.responseStatus);
-			res.send(err.message);
+			res.send(JSON.stringify(err.message));
 		});
 
 };

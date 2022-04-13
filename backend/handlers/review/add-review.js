@@ -17,18 +17,36 @@ module.exports = async (req, res) => {
 		return;
 	}
 
-	let parameter;
-
 	if (!req.body.score) {
 		res.send(JSON.stringify('Missing score value!'));
 		return;
 	}
 
-	if (req.body.game) {
-		parameter = {_id: req.body.game};
-	} else if (req.body.title) {
-		parameter = {title: req.body.title};
+	let parameters;
+
+	if (req.body.game && req.body.game._id) {
+		if (typeof req.body.game._id !== 'string') {
+			req.status(400);
+			req.send('game is not a string');
+			return;
+		}
+
+		parameters = {_id: req.body.game._id};
+	} else  {
+		if (typeof req.body.title !== 'string') {
+			req.status(400);
+			req.send('title is not a string');
+			return;
+		}
+
+		parameters = {title: req.body.title};
 	}
+
+	if (!parameters) {
+		req.status(400);
+		req.send('incorrect/missing "game" or "title" parameter!');
+	}
+
 
 	Review.findOne({
 		user: req.body.user,

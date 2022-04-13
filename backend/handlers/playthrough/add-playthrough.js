@@ -3,15 +3,15 @@ const Playthrough = mongoose.model('playthrough');
 const Game = mongoose.model('game');
 
 module.exports = async (req, res) => {
-	let parameters;
-
 	if (!req.body.state) {
 		res.send(JSON.stringify('Missing playthrough "state" field!'));
 		return;
 	}
 
-	if (req.body.game) {
-		if (typeof req.body.game !== 'string') {
+	let parameters;
+
+	if (req.body.game && req.body.game._id) {
+		if (typeof req.body.game._id !== 'string') {
 			req.status(400);
 			req.send('game is not a string');
 			return;
@@ -26,6 +26,11 @@ module.exports = async (req, res) => {
 		}
 
 		parameters = {title: req.body.title};
+	}
+
+	if (!parameters) {
+		req.status(400);
+		req.send('incorrect/missing "game" or "title" parameter!');
 	}
 
 	Game.findById(parameters)

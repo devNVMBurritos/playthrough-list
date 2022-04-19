@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -18,6 +17,7 @@ import { ReviewService } from '../_services/review.service';
 	styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
+	reviewSubmitted = false;
 	gameReview?: Review;
 	playthrough?: Playthrough;
 	error!: string;
@@ -92,11 +92,12 @@ export class GameComponent implements OnInit {
 		}
 
 		const newReview: Review = {
-			user: new User(this.authService.currentUserValue.id),
+			user: new User(this.authService.currentUserValue._id),
 			game: new Game(this.gameId.value),
 			score: this.reviewGroup.controls.rating.value,
 			review: this.reviewGroup.controls.review.value
 		};
+		this.reviewSubmitted = false;
 
 		(this.gameReview?
 			this.reviewService.editReview(
@@ -107,7 +108,7 @@ export class GameComponent implements OnInit {
 				newReview,
 				this.authService.currentUserValue.loginToken
 			)).subscribe(
-			data => { },
+			data => { this.reviewSubmitted = true; },
 			err => {
 				this.error = err.error;
 			}
@@ -122,9 +123,6 @@ export class GameComponent implements OnInit {
 			.subscribe(
 				data => {
 					this.playthrough = data;
-				},
-				err =>{
-
 				}
 			);
 	}
@@ -133,6 +131,7 @@ export class GameComponent implements OnInit {
 		return this.reviewGroup.controls.rating.value.toString();
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	ngOnInit(): void {
 
 	}

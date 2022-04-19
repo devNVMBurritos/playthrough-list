@@ -20,7 +20,7 @@ export class ProfileComponent implements OnInit {
 	playthroughs: Playthrough[] = [];
 
 	user: User = {
-		id: '',
+		_id: '',
 		username: 'bob',
 		email: '',
 		password: '',

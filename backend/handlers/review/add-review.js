@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
 		return;
 	}
 
-	if (!req.body.game) {
+	if (!req.body.game || !req.body.game._id) {
 		res.status(400);
 		res.send(JSON.stringify('game parameter is missing'));
 
@@ -49,8 +49,8 @@ module.exports = async (req, res) => {
 
 
 	Review.findOne({
-		user: req.body.user,
-		game: req.body.game
+		user: req.body.user._id,
+		game: req.body.game._id
 	})
 		.then((review) => {
 			if (review) {
@@ -59,7 +59,7 @@ module.exports = async (req, res) => {
 				throw error;
 			}
 
-			return 	Game.findOne(parameter);
+			return 	Game.findOne(parameters);
 		})
 		.then((game) => {
 			if (!game) {

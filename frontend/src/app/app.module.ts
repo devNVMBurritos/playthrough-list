@@ -12,6 +12,7 @@ import { RegisterComponent } from './register/register.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AdminComponent } from './admin/admin.component';
 import { GameComponent } from './game/game.component';
+import { AuthInterceptor } from './_services/auth.interceptor';
 
 @NgModule({
 	declarations: [
@@ -30,7 +31,7 @@ import { GameComponent } from './game/game.component';
 		HttpClientModule,
 		ReactiveFormsModule
 	],
-	providers: [],
+	providers: [AuthInterceptor],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }
